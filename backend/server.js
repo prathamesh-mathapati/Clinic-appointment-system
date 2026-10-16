@@ -23,14 +23,28 @@ connectDB().then(() => {
     seedDatabase();
 });
 
-const app = express();
+const isOriginAllowed = (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (
+        origin.includes("localhost") ||
+        origin.endsWith(".vercel.app") ||
+        origin === process.env.CLIENT_URL
+    ) {
+        return callback(null, true);
+    }
+    return callback(null, true);
+};
 
 app.use(
     cors({
-        origin: process.env.CLIENT_URL || "http://localhost:3000",
+        origin: isOriginAllowed,
         credentials: true,
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
+
+app.options("*", cors());
 
 app.use(express.json());
 
