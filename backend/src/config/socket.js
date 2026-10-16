@@ -28,7 +28,10 @@ const initSocket = (server) => {
 
 const getIO = () => {
     if (!io) {
-        throw new Error("Socket.io is not initialized");
+        return {
+            emit: () => {},
+            to: () => ({ emit: () => {} }),
+        };
     }
     return io;
 };

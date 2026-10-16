@@ -23,6 +23,8 @@ connectDB().then(() => {
     seedDatabase();
 });
 
+const app = express();
+
 const isOriginAllowed = (origin, callback) => {
     if (!origin) return callback(null, true);
     if (
@@ -44,9 +46,13 @@ app.use(
     })
 );
 
-app.options("*", cors());
 
 app.use(express.json());
+
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1", doctorRoutes);
@@ -65,13 +71,14 @@ app.get("/", (req, res) => {
 
 app.use(errorHandler);
 
-const server = http.createServer(app);
-initSocket(server);
+if (!process.env.VERCEL) {
+    const server = http.createServer(app);
+    initSocket(server);
 
-const PORT = process.env.PORT || 5000;
-
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+    const PORT = process.env.PORT || 5000;
+    server.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
 
 module.exports = app;
