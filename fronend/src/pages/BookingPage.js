@@ -9,10 +9,7 @@ import {
   Building2,
   Calendar,
   Clock,
-  Search,
-  CheckCircle2,
   AlertCircle,
-  Plus,
   Check,
 } from 'lucide-react';
 

@@ -13,7 +13,6 @@ import {
   ClipboardList,
   Inbox,
   Plus,
-  AlertCircle,
   XCircle,
 } from 'lucide-react';
 

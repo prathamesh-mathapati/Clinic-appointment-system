@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { X, Plus, Users, UserCheck } from 'lucide-react';
+import { X } from 'lucide-react';
 import { staffService, departmentService, doctorService } from '../services/apiService';
 
 export default function StaffManagerPage() {
